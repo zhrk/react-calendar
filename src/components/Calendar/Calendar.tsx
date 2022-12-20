@@ -7,10 +7,13 @@ import styles from './styles.module.scss';
 const Calendar = () => {
   const [date, setDate] = useState(new Date());
 
+  const goToNow = () => setDate(new Date());
   const goToPrev = () => setDate((prev) => subMonths(prev, 1));
   const goToNext = () => setDate((prev) => addMonths(prev, 1));
 
   const days = getDays(date);
+
+  // getDays проревьювить
 
   return (
     <div className={styles.container}>
@@ -21,6 +24,9 @@ const Calendar = () => {
           </button>
           <button type="button" onClick={goToNext}>
             next
+          </button>
+          <button disabled={isSameMonth(new Date(), date)} type="button" onClick={goToNow}>
+            now
           </button>
         </div>
         {format(date, 'dd.MM.yyyy')}
