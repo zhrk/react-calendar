@@ -1,5 +1,7 @@
-import { addMonths, subMonths } from 'date-fns';
+import clsx from 'clsx';
+import { addMonths, format, isSameMonth, subMonths } from 'date-fns';
 import { useState } from 'react';
+import { getDays } from './helpers';
 import styles from './styles.module.scss';
 
 const Calendar = () => {
@@ -7,6 +9,8 @@ const Calendar = () => {
 
   const goToPrev = () => setDate((prev) => subMonths(prev, 1));
   const goToNext = () => setDate((prev) => addMonths(prev, 1));
+
+  const days = getDays(date);
 
   return (
     <div className={styles.container}>
@@ -19,7 +23,17 @@ const Calendar = () => {
             next
           </button>
         </div>
-        {date.toString()}
+        {format(date, 'dd.MM.yyyy')}
+      </div>
+      <div className={styles.days}>
+        {days.map((day) => (
+          <div
+            key={day.toString()}
+            className={clsx(styles.day, !isSameMonth(day, date) && styles.notAvailable)}
+          >
+            {format(day, 'dd')}
+          </div>
+        ))}
       </div>
     </div>
   );

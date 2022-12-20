@@ -1,6 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
+  row-gap: 16px;
 }
 
 .top {
@@ -16,4 +18,25 @@
   & > button {
     color: var(--black);
   }
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: 1fr;
+  flex-grow: 1;
+  border-right: 1px solid var(--grey_100);
+  border-bottom: 1px solid var(--grey_100);
+}
+
+.day {
+  padding: 8px;
+  border-top: 1px solid var(--grey_100);
+  border-left: 1px solid var(--grey_100);
+  background-color: var(--dark_100);
+}
+
+.day.notAvailable {
+  background-color: var(--dark_200);
+  color: var(--grey_300);
 }
