@@ -31,6 +31,9 @@
 
 .day {
   padding: 8px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
   border-top: 1px solid var(--grey_100);
   border-left: 1px solid var(--grey_100);
   background-color: var(--dark_100);
@@ -40,4 +43,16 @@
 .day.notAvailable {
   background-color: var(--dark_200);
   color: var(--grey_300);
+}
+
+.dayEvents {
+  display: flex;
+  flex-direction: column;
+  row-gap: 4px;
+}
+
+.dayEvent {
+  padding: 2px 4px;
+  border-radius: 4px;
+  background-color: var(--blue);
 }

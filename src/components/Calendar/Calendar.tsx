@@ -63,9 +63,11 @@ const Calendar = () => {
               className={clsx(styles.day, !isSameMonth(day, date) && styles.notAvailable)}
             >
               {format(day, 'dd')}
-              {currentEvents.map((event, index) => (
-                <div key={event.id}>{`Event - ${index + 1}`}</div>
-              ))}
+              <div className={styles.dayEvents}>
+                {currentEvents.map((event, index) => (
+                  <div key={event.id} className={styles.dayEvent}>{`Event - ${index + 1}`}</div>
+                ))}
+              </div>
             </div>
           );
         })}
