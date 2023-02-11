@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { addMonths, format, isSameDay, isSameMonth, subMonths } from 'date-fns';
-import { useState } from 'react';
 import { nanoid } from 'nanoid';
+import { useState } from 'react';
 import { getDays } from './helpers';
 import styles from './styles.module.scss';
 
