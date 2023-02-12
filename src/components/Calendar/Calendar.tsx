@@ -1,5 +1,6 @@
+import { randAnimal } from '@ngneat/falso';
 import clsx from 'clsx';
-import { addMonths, format, isSameDay, isSameMonth, subMonths } from 'date-fns';
+import { addMonths, format, isWithinInterval, isSameMonth, subMonths } from 'date-fns';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { getDays } from './helpers';
@@ -7,14 +8,24 @@ import styles from './styles.module.scss';
 
 type Event = {
   id: string;
-  date: Date;
+  title: string;
+  from: Date;
+  to: Date;
 };
 
 type Events = Event[];
 
 const Calendar = () => {
   const [date, setDate] = useState(new Date());
-  const [events, setEvents] = useState<Events>([]);
+
+  const [events, setEvents] = useState<Events>([
+    {
+      id: nanoid(),
+      title: randAnimal(),
+      from: new Date('2023-02-09T21:00:00.000Z'),
+      to: new Date('2023-02-11T21:00:00.000Z'),
+    },
+  ]);
 
   const goToNow = () => setDate(new Date());
   const goToPrev = () => setDate((prev) => subMonths(prev, 1));
@@ -26,6 +37,10 @@ const Calendar = () => {
 
   // getDays проревьювить
   // переключение месяцев колёсиком мыши
+  // onKeyDown
+  // иначе пофиксить баг когда много эвентов (grid-template-rows: min-content 1px;)
+  // протестить с таймзонами
+  // удалить falso
 
   return (
     <div className={styles.container}>
@@ -45,9 +60,12 @@ const Calendar = () => {
       </div>
       <div className={styles.days}>
         {days.map((day) => {
-          const currentEvents = events.filter((event) => isSameDay(day, event.date));
+          const currentEvents = events.filter((event) =>
+            isWithinInterval(day, { start: event.from, end: event.to })
+          );
 
-          const handleCreate = () => createEvent({ id: nanoid(), date: day });
+          const handleCreate = () =>
+            createEvent({ id: nanoid(), title: randAnimal(), from: day, to: day });
 
           return (
             <div
@@ -55,17 +73,15 @@ const Calendar = () => {
               tabIndex={0}
               role="button"
               onClick={handleCreate}
-              onKeyDown={(event) => {
-                if (event.code === 'Space') {
-                  handleCreate();
-                }
-              }}
+              onKeyDown={() => undefined}
               className={clsx(styles.day, !isSameMonth(day, date) && styles.notAvailable)}
             >
-              {format(day, 'dd')}
+              <span>{format(day, 'dd')}</span>
               <div className={styles.dayEvents}>
-                {currentEvents.map((event, index) => (
-                  <div key={event.id} className={styles.dayEvent}>{`Event - ${index + 1}`}</div>
+                {currentEvents.map((event) => (
+                  <div key={event.id} className={styles.dayEvent}>
+                    {event.title}
+                  </div>
                 ))}
               </div>
             </div>
