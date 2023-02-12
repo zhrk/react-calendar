@@ -4,6 +4,7 @@ import { addMonths, format, isWithinInterval, isSameMonth, subMonths } from 'dat
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { getDays } from './helpers';
+import { mockedEvents } from './mocks';
 import styles from './styles.module.scss';
 
 type Event = {
@@ -18,14 +19,7 @@ type Events = Event[];
 const Calendar = () => {
   const [date, setDate] = useState(new Date());
 
-  const [events, setEvents] = useState<Events>([
-    {
-      id: nanoid(),
-      title: randAnimal(),
-      from: new Date('2023-02-09T21:00:00.000Z'),
-      to: new Date('2023-02-11T21:00:00.000Z'),
-    },
-  ]);
+  const [events, setEvents] = useState<Events>(mockedEvents);
 
   const goToNow = () => setDate(new Date());
   const goToPrev = () => setDate((prev) => subMonths(prev, 1));
