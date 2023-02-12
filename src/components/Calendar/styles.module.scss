@@ -31,18 +31,22 @@
 
 .day {
   padding: 8px;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-rows: min-content 1px;
   row-gap: 4px;
   border-top: 1px solid var(--grey_100);
   border-left: 1px solid var(--grey_100);
   background-color: var(--dark_100);
   user-select: none;
+  overflow: hidden;
 }
 
 .day.notAvailable {
   background-color: var(--dark_200);
-  color: var(--grey_300);
+
+  & > span {
+    color: var(--grey_300);
+  }
 }
 
 .dayEvents {
